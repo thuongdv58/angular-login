@@ -1,0 +1,12 @@
+﻿<p>Please Login for further work:</p>
+<form [formGroup] ="loginForm" (ngSubmit) = "login(loginForm.value)">
+  <label>username:
+    <input type= 'text' formControlName ="username" />
+  </label>
+  <p *ngIf ="!loginForm.controls['username'].valid&& loginForm.controls['username'].touched">This field is required!</p>
+  <label>password:
+    <input type= 'password' formControlName ="password"/>
+  </label>
+  <p *ngIf ="!loginForm.controls['password'].valid&& loginForm.controls['password'].touched">This field is required and has minimum length of 8 character!</p>
+  <input type="submit" value="Login" [disabled] ="!loginForm.valid"/>
+</form>
