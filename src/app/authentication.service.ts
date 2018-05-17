@@ -15,14 +15,14 @@ export class AuthenticationService {
         const body = {
             username: username,
             password: password,
-            grant_type: password,
+            grant_type: 'password',
             scope: 'IcpAPI offline_access',
             client_id: 'icp-web-app'
         };
         console.log(body);
         return this.httpClient.post("https://api.icp.sit.debugger.vn/connect/token", body, httpOptions).pipe(
-            tap((data: any) => console.log('gg1',data)),
-            catchError(this.handleError('getHeroes', []))
+            map(this.extractData),
+            catchError(this.handleErrorObservable)
         );
 ;
     }
@@ -36,4 +36,16 @@ export class AuthenticationService {
             return of(result as T);
         };
     }
+
+    extractData(res: Response) {
+        let body = res.json();
+        console.log('gg');
+        console.log(body);
+        return body || {};
+    }
+    handleErrorObservable(error: Response | any) {
+        console.log('ggg2');
+        console.error(error.message || error);
+        return Observable.throw(error.message || error);
+    } 
 }
